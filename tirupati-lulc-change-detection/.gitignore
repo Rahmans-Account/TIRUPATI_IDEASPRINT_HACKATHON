@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+
+# Virtual Environment
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints
+
+# Data
+data/raw/
+data/processed/
+*.tif
+*.TIF
+
+# Ignore large data files except .npy
+/data/raw/landsat/*.tif
+/data/processed/clipped/*.tif
+/data/training/labels/*.tif
+
+# Ignore large files and folders
+/data/processed/clipped/*.tif
+/data/processed/indices/*.tif
+/data/raw/landsat/**/*.tif
+/data/results/change_detection/*.tif
+/data/results/classifications/*.tif
+/data/training/labels/*.tif
+/data/training/labels/*.tif
+/data/training/labels/*.tif
+/frontend/.next/
+/frontend/node_modules/
+*.dll
+*.so
+*.dylib
+
+# Models
+models/**/*.pth
+models/**/*.pkl
+
+# Logs
+logs/
+*.log
+
+# Cache
+.cache/
+.pytest_cache/
+
+# Environment
+.env
