@@ -1,0 +1,38 @@
+# Data Paths Configuration
+
+base_dir: "."
+
+data:
+  raw:
+    landsat: "data/raw/landsat"
+    sentinel: "data/raw/sentinel"
+    
+  shapefiles:
+    boundary: "data/shapefiles/tirupati_boundary/Tirupati.shp"
+    validation: "data/shapefiles/validation_samples"
+    
+  processed:
+    clipped: "data/processed/clipped"
+    indices: "data/processed/indices"
+    tiles: "data/processed/tiles"
+    
+  training:
+    labels: "data/training/labels"
+    annotations: "data/training/annotations"
+    
+  results:
+    classifications: "data/results/classifications"
+    change_detection: "data/results/change_detection"
+    statistics: "data/results/statistics"
+    visualizations: "data/results/visualizations"
+
+models:
+  random_forest: "models/random_forest"
+  unet: "models/unet"
+  deeplabv3: "models/deeplabv3"
+  ensemble: "models/ensemble"
+
+outputs:
+  logs: "logs"
+  reports: "reports"
+  figures: "data/results/visualizations"

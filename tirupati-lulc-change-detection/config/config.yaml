@@ -1,0 +1,118 @@
+# Main Configuration File for Tirupati LULC Change Detection
+
+project:
+  name: "Tirupati LULC Change Detection"
+  version: "1.0.0"
+  description: "AI-powered land use land cover change detection system"
+  
+study_area:
+  name: "Tirupati District"
+  state: "Andhra Pradesh"
+  country: "India"
+  crs: "EPSG:32644"  # WGS 84 / UTM zone 44N
+  
+time_periods:
+  t1:
+    year: 2018
+    months: [1, 2, 3]  # January-March (dry season)
+  t2:
+    year: 2024
+    months: [1, 2, 3]
+  
+# --- Random Forest Model Integration ---
+model:
+  n_estimators: 100
+  max_depth: 30
+  min_samples_split: 10
+  min_samples_leaf: 5
+  random_state: 42
+  n_jobs: -1
+  class_weight: balanced
+
+classes:
+  0:
+    name: "Water"
+    color: [0, 0, 255]
+  1:
+    name: "Vegetation"
+    color: [0, 255, 0]
+  2:
+    name: "Urban"
+    color: [255, 0, 0]
+  3:
+    name: "Barren"
+    color: [255, 255, 0]
+  4:
+    name: "Agriculture"
+    color: [0, 255, 255]
+
+band_mapping:
+  Blue: 1
+  Green: 2
+  Red: 3
+  NIR: 4
+  SWIR1: 5
+  SWIR2: 6
+    
+lulc_classes:
+  - name: "Forest"
+    code: 0
+    color: "#228B22"
+    description: "Dense vegetation, tree cover"
+    
+  - name: "Water Bodies"
+    code: 1
+    color: "#0000FF"
+    description: "Rivers, lakes, ponds, reservoirs"
+    
+  - name: "Agriculture"
+    code: 2
+    color: "#FFFF00"
+    description: "Cropland, farmland, plantations"
+    
+  - name: "Barren Land"
+    code: 3
+    color: "#8B4513"
+    description: "Exposed soil, rocky areas, wasteland"
+    
+  - name: "Built-up"
+    code: 4
+    color: "#FF0000"
+    description: "Urban areas, buildings, roads, infrastructure"
+
+satellite:
+  primary_source: "landsat"
+  cloud_cover_max: 20
+  
+  landsat:
+    collection: "LANDSAT/LC08/C02/T1_L2"
+    bands: ["SR_B2", "SR_B3", "SR_B4", "SR_B5", "SR_B6", "SR_B7"]
+    resolution: 30
+    
+  sentinel:
+    collection: "COPERNICUS/S2_SR"
+    bands: ["B2", "B3", "B4", "B8", "B11", "B12"]
+    resolution: 10
+
+preprocessing:
+  clip_to_boundary: true
+  cloud_masking: true
+  atmospheric_correction: true
+  normalization_method: "minmax"
+  resampling_method: "bilinear"
+  tile_size: null  # Disable tiling
+  tile_overlap: 32
+  
+indices:
+  calculate: ["NDVI", "NDBI", "NDWI", "MNDWI", "EVI", "SAVI"]
+
+export:
+  formats: ["GeoTIFF", "PNG", "CSV", "GeoJSON"]
+  compression: "LZW"
+  include_metadata: true
+  
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  save_to_file: true
+  log_directory: "logs"
