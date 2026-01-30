@@ -158,7 +158,7 @@ export default function GalleryPage() {
                   </a>
                 </div>
                 <div className="p-4 bg-black/40">
-                  <iframe src={viz.path} className="h-[550px] w-full rounded-2xl border-0 shadow-inner" />
+                  <iframe src={viz.path} className="h-[550px] w-full rounded-2xl border-0 shadow-inner" title={viz.title || "Visualization"} />
                 </div>
               </div>
             ))}

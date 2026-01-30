@@ -38,6 +38,8 @@ data/processed/
 /data/results/classifications/*.tif
 /data/training/labels/*.tif
 /data/training/labels/*.tif
+/data/results/
+frontend/public/results/
 /data/training/labels/*.tif
 /frontend/.next/
 /frontend/node_modules/

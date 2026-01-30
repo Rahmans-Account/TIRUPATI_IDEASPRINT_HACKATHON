@@ -11,8 +11,9 @@ export type CsvTable = {
  * @param imageName - Name of the image file (e.g., 'lulc_2018.png')
  * @returns Public URL path
  */
+
 export function getPublicResultImage(imageName: string): string {
-  return `/results/${imageName}`;
+  return `/results/maps/${imageName}`;
 }
 
 /**

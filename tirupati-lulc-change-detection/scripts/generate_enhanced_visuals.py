@@ -82,9 +82,12 @@ def generate_all_visuals(year_t1: int = 2018, year_t2: int = 2024, fast: bool = 
     # Load classifications
     lulc_t1_path = class_dir / f"lulc_{year_t1}.tif"
     lulc_t2_path = class_dir / f"lulc_{year_t2}.tif"
-    
+
     if not lulc_t1_path.exists() or not lulc_t2_path.exists():
         print(f"ERROR: Classification files not found")
+        print(f"Checked for: {lulc_t1_path}")
+        print(f"Checked for: {lulc_t2_path}")
+        print(f"Current working directory: {Path.cwd()}")
         return
     
     lulc_t1 = load_classification(lulc_t1_path)

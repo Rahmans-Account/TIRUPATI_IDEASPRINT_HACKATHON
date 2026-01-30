@@ -6,28 +6,30 @@ import { getPublicResultImage, hasPublicResultImage } from "@/lib/results";
 import { Map, Layers, ShieldCheck, Maximize2, Info, Eye } from "lucide-react";
 
 const changeImages = [
-  { 
-    key: "change_map.png", 
-    title: "Change Map", 
+  {
+    key: "change_map.png",
+    title: "Change Map",
     desc: "Binary overlay showing pixels where land use shifted.",
     icon: <Map className="text-rose-500" size={18} />
   },
-  { 
-    key: "transition_map.png", 
-    title: "Transition Map", 
+  {
+    key: "transition_map.png",
+    title: "Transition Map",
     desc: "Categorical shifts (e.g., Forest to Urban) color-coded.",
     icon: <Layers className="text-amber-500" size={18} />
   },
-  { 
-    key: "change_confidence.png", 
-    title: "Change Confidence", 
+  {
+    key: "change_confidence.png",
+    title: "Change Confidence",
     desc: "Probability map showing model certainty per pixel.",
-    icon: <ShieldCheck className="text-emerald-500" size={18} /> 
+    icon: <ShieldCheck className="text-emerald-500" size={18} />
   },
 ];
 
 export default function ChangePage() {
   const [mounted, setMounted] = useState(false);
+  // Track image errors for each change image key
+  const [imgErrors, setImgErrors] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     setMounted(true);
@@ -57,7 +59,7 @@ export default function ChangePage() {
       {/* Grid Layout */}
       <div className="grid gap-8 lg:grid-cols-2">
         {changeImages.map((image) => {
-          const hasImage = hasPublicResultImage(image.key);
+          const imgError = imgErrors[image.key];
           return (
             <div 
               key={image.key} 
@@ -74,14 +76,14 @@ export default function ChangePage() {
                     <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-semibold">{image.desc}</p>
                   </div>
                 </div>
-                <button className="p-2 text-slate-500 hover:text-white transition-colors">
+                <button className="p-2 text-slate-500 hover:text-white transition-colors" title="Expand image">
                   <Maximize2 size={18} />
                 </button>
               </div>
 
               {/* Image Container */}
               <div className="relative aspect-square px-5 pb-5 overflow-hidden">
-                {hasImage ? (
+                {!imgError ? (
                   <div className="relative h-full w-full overflow-hidden rounded-2xl border border-slate-700 shadow-inner group-hover:border-indigo-500/30 transition-all">
                     {/* Hover Overlay */}
                     <div className="absolute inset-0 z-10 bg-indigo-900/0 opacity-0 group-hover:bg-indigo-900/10 group-hover:opacity-100 transition-all flex items-center justify-center pointer-events-none">
@@ -95,6 +97,7 @@ export default function ChangePage() {
                       alt={image.title}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      onError={() => setImgErrors((prev) => ({ ...prev, [image.key]: true }))}
                     />
                   </div>
                 ) : (
@@ -112,8 +115,7 @@ export default function ChangePage() {
               <div className="px-5 pb-5">
                 <div className="h-1 w-full bg-slate-800 rounded-full overflow-hidden">
                    <div
-                     className="h-full bg-indigo-500 transition-all duration-1000"
-                     style={{ width: hasImage ? "100%" : "0%" }}
+                     className={`h-full bg-indigo-500 transition-all duration-1000 ${!imgError ? 'w-full' : 'w-0'}`}
                    ></div>
                 </div>
               </div>

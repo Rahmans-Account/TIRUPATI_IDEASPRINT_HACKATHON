@@ -1,5 +1,9 @@
+
 """Map visualization utilities for LULC data."""
 
+# --- Headless backend for hackathon/automation ---
+import matplotlib
+matplotlib.use("Agg")  # ⭐ headless backend, no GUI popups
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors

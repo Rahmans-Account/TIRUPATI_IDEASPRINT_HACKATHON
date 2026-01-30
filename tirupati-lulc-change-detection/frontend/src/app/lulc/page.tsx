@@ -17,6 +17,8 @@ const legend = [
 export default function LulcMapsPage() {
   const [years, setYears] = useState<number[]>([2018, 2024]);
   const [mounted, setMounted] = useState(false);
+  // Track image errors for each year
+  const [imgErrors, setImgErrors] = useState<{ [year: number]: boolean }>({});
 
   useEffect(() => {
     // Read uploaded years from localStorage
@@ -66,7 +68,7 @@ export default function LulcMapsPage() {
       <div className="grid gap-8 md:grid-cols-2">
         {years.map((year, index) => {
           const imageName = `lulc_${year}.png`;
-          const hasImage = hasPublicResultImage(imageName);
+          const imgError = imgErrors[year];
           return (
             <div 
               key={year} 
@@ -82,20 +84,21 @@ export default function LulcMapsPage() {
 
               {/* Action Toolbar */}
               <div className="absolute top-6 right-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
-                 <button className="bg-white/10 backdrop-blur-md p-2 rounded-lg border border-white/20 text-white hover:bg-white/20">
+                 <button className="bg-white/10 backdrop-blur-md p-2 rounded-lg border border-white/20 text-white hover:bg-white/20" title="Expand image">
                     <Maximize2 size={18} />
                  </button>
               </div>
 
               {/* Map Canvas */}
               <div className="relative aspect-square p-3">
-                {hasImage ? (
+                {!imgError ? (
                   <div className="relative h-full w-full overflow-hidden rounded-2xl border border-slate-700">
                     <Image
                       src={getPublicResultImage(imageName)}
                       alt={`LULC ${year}`}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      onError={() => setImgErrors((prev) => ({ ...prev, [year]: true }))}
                     />
                     {/* Corner coordinates label - adds "Realism" */}
                     <div className="absolute bottom-4 right-4 text-[10px] font-mono text-white/40 pointer-events-none">
